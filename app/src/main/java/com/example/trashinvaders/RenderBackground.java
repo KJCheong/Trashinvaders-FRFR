@@ -31,11 +31,16 @@ public class RenderBackground implements EntityBase{
 
         scaledbmp=Bitmap.createScaledBitmap(bmp,ScreenWidth,ScreenHeight,true);
     }
-    public void Update(float _dt){
-
+    public Update(float _dt){
+         xPos -= _dt * 500;//500 can be edited, its to deal with speed = how fast screen scrolls
+        if(xPos < - ScreenWidth)
+        {
+            xPos = 0
+        }
     }
     public void Render(Canvas _canvas){
-
+        _canvas.drawBitmap(scaledbmp,xPos,yPos,null);
+        _canvas.drawBitmap(scaledbmp,xPos + ScreenWidth,yPos,null);
     }
     public boolean IsInit(){
         return bmp !=null;
@@ -48,5 +53,11 @@ public class RenderBackground implements EntityBase{
     }
     public ENTITY_TYPE GetEntityType(){
         return ENTITY_TYPE.ENT_DEFAULT;
+    }
+    public static RenderBackground Create()
+    {
+        RenderBackground result = new RenderBackground();
+        EntityManager.Instance.AddEntity(result,ENTITY_TYPE,ENT_DEFAULT);
+        return result;
     }
 }
